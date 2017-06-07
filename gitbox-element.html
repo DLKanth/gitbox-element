@@ -1,0 +1,46 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../iron-list/iron-list.html">
+<link rel="import" href="gitbox-ui.html">
+
+<dom-module id="gitbox-element">
+  <template>
+  
+<iron-ajax
+    auto
+    id="request"
+    url="https://api.github.com/users/[[username]]/repos"
+    last-response="{{data}}"
+    debounce-duration="300"></iron-ajax>
+
+    <iron-list items="[[data]]" as="item" grid>
+  <template>
+    <gitbox-ui name="[[item.name]]" desc="[[item.description]]" htmlurl="[[item.html_url]]" starcount="[[item.stargazers_count]]"
+        language="[[item.language]]" cloneurl="[[item.clone_url]]"></gitbox-ui>
+  </template>
+</iron-list>
+
+
+  </template>
+
+  <script>
+    class GitboxElement extends Polymer.Element {
+    
+      static get is() { return 'gitbox-element'; }
+      static get properties() {
+        return {
+          username: {
+            type: String
+          }
+        };
+      }
+
+      ready() {
+        super.ready();
+        this.$.request.generateRequest();
+      }
+    }
+
+    window.customElements.define(GitboxElement.is, GitboxElement);
+  </script>
+</dom-module>

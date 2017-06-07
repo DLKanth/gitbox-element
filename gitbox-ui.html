@@ -1,0 +1,124 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+
+<dom-module id="gitbox-ui">
+  <template>
+
+<style>
+
+  .box {
+    padding: 10px;
+    position: relative;
+  }
+  .roundBox {
+    border: 1px solid;
+    border-color: #d1d5da !important;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    height: 100px; 
+  }
+
+  .textBold {
+    font-weight: 600 !important;
+    color: #0366d6;
+  }
+
+  .descText {
+    font-size: 12px !important;
+    color: #586069 !important;
+  }
+  
+  .bottomLeftLayout {
+    position: absolute;
+    bottom: 20px;
+    left: 30px;
+    font-size: 12px;
+    color: #586069;
+    text-align: center;
+  }
+
+  .bottomRightLayout {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    font-size: 12px;
+    color: #586069;
+    text-align: center;
+  }
+
+  .starIcon {
+    fill: rgba(0,0,0,0);
+    stroke: black;
+    width: 14px;
+    height: 14px;
+    padding-bottom: 3px;
+  }
+
+  .copyIcon {
+  	width: 16px;
+    height: 16px;
+    padding-bottom: 3px;
+  }
+
+  </style>
+
+
+  	<div class="box">
+      <div class="roundBox">
+        <a href="[[htmlurl]]" class="textBold">[[name]]</a>
+        <p class=descText>[[desc]]</p>
+        <p class="bottomLeftLayout">
+         <span style="margin-right:10px;"> [[language]]</span> <iron-icon class="starIcon" icon="star"></iron-icon> <span>[[starcount]]</span>
+        </p>
+        <p class="bottomRightLayout">
+          <iron-icon id="copy" class="copyIcon" on-click="copy" icon="content-copy"></iron-icon>
+        </p>
+    </div>
+    </div>
+  </template>
+
+ <script>
+    class GitBoxUi extends Polymer.GestureEventListeners(Polymer.Element) {
+    
+      constructor() {
+      	super();
+      	 //Polymer.Gestures.addListener(this.copy, 'tap', () => this.copy());
+      }
+
+      copy(event) {
+      	window.prompt("Ctrl + C", this.cloneurl);
+      }
+
+
+      static get is() { return 'gitbox-ui'; }
+      static get properties() {
+        return {
+          desc: {
+            type: String,
+
+          },
+          name: {
+            type: String
+          },
+          language: {
+            type: String
+          },
+          htmlurl: {
+          	type: String
+          },
+          cloneurl: {
+          	type: String
+          },
+          starcount: {
+          	type: String
+          }
+        };
+      }
+
+    }
+
+    window.customElements.define(GitBoxUi.is, GitBoxUi);
+  </script>
+
+</dom-module>
